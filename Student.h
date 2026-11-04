@@ -9,14 +9,13 @@
 using namespace std;
     class Student
     {
-        private:
         string name;
         int numCourses;
         string* courseList;
 
         public:
         Student();                  // default constructor
-        explicit Student(string n); // constructor with params
+        explicit Student(const string& name); // constructor with params
         ~Student();                 // destructor
 
         // getters (accessors)
@@ -26,7 +25,15 @@ using namespace std;
 
         // setters (Mutator)
         void setName(string n);
+
+        // Considers current objects array size and if larger than "numCourse" allocate more mem and update "numCourses"
         void addCourse(string course);
+
+        // Prints each property of student
+        friend ostream& operator<<(ostream& os, const Student& student);
+
+        // clears all properties of object
+        void clear();
     };
 
 #endif //A2_COURSES_STUDENT_H

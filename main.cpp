@@ -4,7 +4,7 @@
 // 1) DONE Constuct a class named 'Student' that has name, numCourses, courseList (Dynamic array)
 // 2) DONE For 'Student' Class create constructors, mutator, accessors
 // 3) DONE A default constructor (i.e., creates a student object without a name and an empty course
-// 4) The “big three / rule of three” (i.e., copy constructor, assignment operator, destructor).
+// 4) DONE The “big three / rule of three” (i.e., copy constructor, assignment operator, destructor).
 // 5) An add function that will allow courses to be added to a student’s list of courses. This function
 //      will demonstrate a deep copy using a ‘dynamically’ changing array to support the input for an
 //      arbitrary number of courses. This is for educational purposes only, so you may not use a vector
@@ -59,13 +59,14 @@ class ArrayTestClass
         stringArray = nullptr; // its safe to delete a nullptr
     }
     // Constructor w params
-    ArrayTestClass(const int size)
+    explicit ArrayTestClass(const int size)
     {
         cout << "ArrayTestClass constructor params" << endl;
         arraySize = size;
         stringArray = new string[size];
     }
 
+    //Copy constructor (Deep Copy)
     ArrayTestClass(const ArrayTestClass &obj)
     {
         cout << "ArrayTestClass Copy Constructor" << endl;
@@ -84,6 +85,7 @@ class ArrayTestClass
     {
         cout << "Printing ArrayTestClass Report..." << endl;
 
+        // get an array size based of the size of the array to use for loop indexing
         int localArraySize = obj.arraySize; //Used for loop
 
         // For when the "clearArray" method is run
@@ -91,14 +93,13 @@ class ArrayTestClass
         {
             obj.arraySize = 0;
         }
-        // get an array size based of the size of the array to use for loop indexing
         outputStream << "Array Size: " << obj.arraySize << endl;
         for (int i = 0; i < localArraySize; i++)
         {
             outputStream << "Element " << i << ": " << obj.stringArray[i] << endl;
         }
     }
-    void ClearArray()
+    void ClearArray() const
     {
         cout<<"Clearing Array"<<endl;
         for (int i = 0; i < arraySize; i++)
@@ -112,8 +113,6 @@ class ArrayTestClass
         cout << "ArrayTestClass destructor" << endl;
         delete[] stringArray;
     }
-
-
 };
 int main()
 {
@@ -136,9 +135,9 @@ int main()
 
     cout << array;
 
-
     // Do a Deep copy of "array"
     ArrayTestClass array2 = array;    // One method
+
     // ArrayTestClass array2(array);          // Other Method
 
     // Clear array
