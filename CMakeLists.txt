@@ -3,4 +3,6 @@ project(A2_Courses)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(A2_Courses main.cpp)
+add_executable(A2_Courses main.cpp
+        Student.h
+        Student.cpp)
