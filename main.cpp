@@ -137,7 +137,6 @@ int main()
     // ArrayTest array2(array);          // Other Method
 
     // Clear array
-
     array.clear();
 
     array2.stringArray[0] = element5;
