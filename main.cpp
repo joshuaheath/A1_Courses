@@ -78,13 +78,18 @@ class ArrayTest
     }
 
     // Operator overload for << for only "ArrayTest" class
-    friend void operator<<(ostream &outputStream, const ArrayTest &obj)
+    friend void operator<<(ostream &outputStream, ArrayTest &obj)
     {
         cout << "Printing Report..." << endl;
 
+        int localArraySize = obj.arraySize; //Used for loop
+        if (obj.stringArray[0].empty())
+        {
+            obj.arraySize = 0;
+        }
         // get an array size based of the size of the array to use for loop indexing
         outputStream << "Array Size: " << obj.arraySize << endl;
-        for (int i = 0; i < obj.arraySize; i++)
+        for (int i = 0; i < localArraySize; i++)
         {
             outputStream << "Element " << i << ": " << obj.stringArray[i] << endl;
         }
@@ -94,11 +99,9 @@ class ArrayTest
         cout<<"Clear constructor"<<endl;
         for (int i = 0; i < arraySize; i++)
         {
-            stringArray[i] = " ";
+            stringArray[i] = "";
         }
 
-        arraySize = 0;
-        stringArray = nullptr;
     }
     ~ArrayTest()
     {
@@ -142,6 +145,7 @@ int main()
     cout << "====================================" << endl;
 
     cout << array;
+    cout << array.stringArray[2] << endl;
 
     cout << "====================================" << endl;
 
