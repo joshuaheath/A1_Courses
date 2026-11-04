@@ -148,8 +148,8 @@ int main()
 
     cout << "====================================" << endl;
 
+    // uses operator overload to print "ArrayTestClass" object
     cout << array;
-    cout << array.stringArray[2] << endl;
 
     cout << "====================================" << endl;
 
