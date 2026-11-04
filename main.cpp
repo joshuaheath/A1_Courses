@@ -43,30 +43,32 @@
 #include <string>
 #include <ostream>
 using namespace std;
-class ArrayTest
+class ArrayTestClass
 {
     public:
-    int arraySize;     //allocate mem
-    string *stringArray;
+    int arraySize;          // allocate mem
+    string *stringArray;    // allocates mem for pointer to the array (not an array)
 
-    ArrayTest()
+    // Default constructor
+    ArrayTestClass()
     {
-        cout<<"Default constructor"<<endl;
+        cout<<"ArrayTestClass Default constructor"<<endl;
 
-        // Done so the deconstructor is done safely
+        // Done so the deconstructor de-allocates safely
         arraySize = 0;
         stringArray = nullptr; // its safe to delete a nullptr
     }
-    ArrayTest(const int size) // Constructor w params
+    // Constructor w params
+    ArrayTestClass(const int size)
     {
-        cout << "ArrayTest constructor" << endl;
+        cout << "ArrayTestClass constructor params" << endl;
         arraySize = size;
         stringArray = new string[size];
     }
 
-    ArrayTest(const ArrayTest &obj)
+    ArrayTestClass(const ArrayTestClass &obj)
     {
-        cout << "ArrayTest Copy Constructor" << endl;
+        cout << "ArrayTestClass Copy Constructor" << endl;
         arraySize = obj.arraySize; // Applies to the class property
         stringArray = new string[arraySize]; // Makes new array of string using classes updated "arraySize"
 
@@ -78,11 +80,13 @@ class ArrayTest
     }
 
     // Operator overload for << for only "ArrayTest" class
-    friend void operator<<(ostream &outputStream, ArrayTest &obj)
+    friend void operator<<(ostream &outputStream, ArrayTestClass &obj)
     {
-        cout << "Printing Report..." << endl;
+        cout << "Printing ArrayTestClass Report..." << endl;
 
         int localArraySize = obj.arraySize; //Used for loop
+
+        // For when the "clearArray" method is run
         if (obj.stringArray[0].empty())
         {
             obj.arraySize = 0;
@@ -94,18 +98,18 @@ class ArrayTest
             outputStream << "Element " << i << ": " << obj.stringArray[i] << endl;
         }
     }
-    void clear()
+    void ClearArray()
     {
-        cout<<"Clear constructor"<<endl;
+        cout<<"Clearing Array"<<endl;
         for (int i = 0; i < arraySize; i++)
         {
             stringArray[i] = "";
         }
 
     }
-    ~ArrayTest()
+    ~ArrayTestClass()
     {
-        cout << "ArrayTest destructor" << endl;
+        cout << "ArrayTestClass destructor" << endl;
         delete[] stringArray;
     }
 
@@ -121,23 +125,24 @@ int main()
 
     string element5 = "I WAS REPLACED";
 
-    ArrayTest array(arrSize); //Create an object
+    // Create an object with constructor w params
+    ArrayTestClass array(arrSize);
 
     // Add each string to each index of the stringArray property
     array.stringArray[0] = element1;
     array.stringArray[1] = element2;
     array.stringArray[2] = element3;
     array.stringArray[3] = element4;
-    // arrayTest.stringArray[4] = element5;
 
     cout << array;
 
-    // Deep Copy of "array"
-    ArrayTest array2 = array;    // One method
-    // ArrayTest array2(array);          // Other Method
+
+    // Do a Deep copy of "array"
+    ArrayTestClass array2 = array;    // One method
+    // ArrayTestClass array2(array);          // Other Method
 
     // Clear array
-    array.clear();
+    array.ClearArray();
 
     array2.stringArray[0] = element5;
 
