@@ -15,22 +15,23 @@ using namespace std;
 
         public:
         Student();                  // default constructor
-        explicit Student(const string& name); // constructor with params
+        explicit Student(const string& name);   // constructor with params
+        Student(const Student& student);        // Deep Copy constructor
         ~Student();                 // destructor
 
         // getters (accessors)
         string getName();
-        int getNumCourses();
-        string getCourseList();
+        int getNumCourses() const;
+        string getCourseArray() const;
 
         // setters (Mutator)
         void setName(string n);
 
         // Considers current objects array size and if larger than "numCourse" allocate more mem and update "numCourses"
-        void addCourse(string course);
+        int addCourse(const string& course);
 
         // Prints each property of student
-        friend ostream& operator<<(ostream& os, const Student& student);
+        friend ostream& operator<<(ostream& output, const Student& student);
 
         // clears all properties of object
         void clear();
