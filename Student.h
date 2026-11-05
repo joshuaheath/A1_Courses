@@ -9,11 +9,11 @@
 using namespace std;
     class Student
     {
+        public:
         string name;
         int numCourses;
         string* courseList;
 
-        public:
         Student();                  // default constructor
         explicit Student(const string& name);   // constructor with params
         Student(const Student& student);        // Deep Copy constructor

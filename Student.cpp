@@ -97,7 +97,8 @@ ostream& operator<<(ostream& output, const Student& student)
 {
     cout<<"Student Details"<<endl;
 
-    output<<"Name: "<<student.getName()<< endl << "Courses: ";
+    output<<"Name: "<< student.name << endl;
+    output<< "Number of courses: "<< student.numCourses << "\nCourses: " << endl;
     for (int i = 0; i < student.numCourses; i++)
     {
         output << student.courseList[i] << ", ";

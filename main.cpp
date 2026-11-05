@@ -5,21 +5,21 @@
 // 2) DONE For 'Student' Class create constructors, mutator, accessors
 // 3) DONE A default constructor (i.e., creates a student object without a name and an empty course
 // 4) DONE The “big three / rule of three” (i.e., copy constructor, assignment operator, destructor).
-// 5) An add function that will allow courses to be added to a student’s list of courses. This function
+// 5) DONE An add function that will allow courses to be added to a student’s list of courses. This function
 //      will demonstrate a deep copy using a ‘dynamically’ changing array to support the input for an
 //      arbitrary number of courses. This is for educational purposes only, so you may not use a vector
 //      or list as you would in production.
-// 6) A string constructor (i.e., constructor with arguments Student S1(“Bo
-// 7) A ‘print’ function that outputs the name and list of all courses.
-// 8) Overloaded << as a friend function that outputs the name and list of all courses.
-// 9) A function that resets the number of courses to 0 and the courseList array to an empty list.
+// 6) DONE A string constructor (i.e., constructor with arguments Student S1(“Bo
+// 7) DONE A ‘print’ function that outputs the name and list of all courses.
+// 8) DONE Overloaded << as a friend function that outputs the name and list of all courses.
+// 9) DONE A function that resets the number of courses to 0 and the courseList array to an empty list.
 
 // OTHER REQUIREMENTS
 // 10) Demos all methods of student class
 // 11) Allows looping or exiting, all class properties are entered by user
-// 12) Key methods identify itself when called
-// 13) Solution implements heads with appropriate pre-processor directives and guards
-// 14) Solution implements a correct copy constructor (Deep copy)
+// 12) DONE Key methods identify itself when called
+// 13) DONE Solution implements heads with appropriate pre-processor directives and guards
+// 14) DONE Solution implements a correct copy constructor (Deep copy)
 // 15) implements correctly functioning assignment operator
 // 16) Includes programmer made destructor that frees memory with no leaks
 // 17) Implements a Dynamic array on the heap
@@ -41,163 +41,86 @@
 
 #include <iostream>
 #include <string>
-#include <ostream>
+#include "Student.h"
 using namespace std;
-class ArrayTestClass
+
+Student getStudentWithName()
 {
-    public:
-    int arraySize;          // allocate mem
-    string *stringArray;    // allocates mem for pointer to the array (not an array)
-
-    // Default constructor
-    ArrayTestClass()
+    string name;
+    do
     {
-        cout<<"ArrayTestClass Default constructor"<<endl;
+        cout << "Enter Student name: ";
+        getline(cin, name);
 
-        // Done so the deconstructor de-allocates safely
-        arraySize = 0;
-        stringArray = nullptr; // its safe to delete a nullptr
-    }
-    // Constructor w params
-    explicit ArrayTestClass(const int size)
-    {
-        cout << "ArrayTestClass constructor params" << endl;
-        arraySize = size;
-        stringArray = new string[size];
-    }
-
-    //Copy constructor (Deep Copy)
-    ArrayTestClass(const ArrayTestClass &obj)
-    {
-        cout << "ArrayTestClass Copy Constructor" << endl;
-        arraySize = obj.arraySize; // Applies to the class property
-        stringArray = new string[arraySize]; // Makes new array of string using classes updated "arraySize"
-
-        // Copy array elements
-        for (int i = 0; i < arraySize; i++)
+        if (name == "")
         {
-            stringArray[i] = obj.stringArray[i];
-        }
-    }
-
-    // Operator overload for << for only "ArrayTest" class
-    friend void operator<<(ostream &outputStream, ArrayTestClass &obj)
-    {
-        cout << "Printing ArrayTestClass Report..." << endl;
-
-        // get an array size based of the size of the array to use for loop indexing
-        int localArraySize = obj.arraySize; //Used for loop
-
-        // For when the "clearArray" method is run
-        if (obj.stringArray[0].empty())
-        {
-            obj.arraySize = 0;
-        }
-        outputStream << "Array Size: " << obj.arraySize << endl;
-        for (int i = 0; i < localArraySize; i++)
-        {
-            outputStream << "Element " << i << ": " << obj.stringArray[i] << endl;
-        }
-    }
-    void ClearArray() const
-    {
-        cout<<"Clearing Array"<<endl;
-        for (int i = 0; i < arraySize; i++)
-        {
-            stringArray[i] = "";
+            cout << "Student name cannot be empty"<<endl;
         }
 
-    }
-    ~ArrayTestClass()
+    } while (name.empty());
+    return Student(name);
+}
+
+string getCourseString()
+{
+    string course;
+    do
     {
-        cout << "ArrayTestClass destructor" << endl;
-        delete[] stringArray;
+        cout << "Enter Course name: ";
+        getline(cin, course);
+        if (course == "")
+        {
+            cout << "====================================================" <<endl;
+            cout << "Course cannot be empty, Try Again"<<endl;
+        }
+    } while (course.empty());
+    return course;
+}
+
+// bool getBooleanResponse()
+// Assign
+static void assignStudentCourses(Student& course)
+{
+    string addAnotherCourse;
+    while (true)
+    {
+        string curCourse = getCourseString();
+        if (curCourse.empty()){cout<<"You shouldnt be here"<<endl;}
+
+        //Adds verifeid course string to Student array
+        course.addCourse(curCourse);
+        cout << "Added Course: " << curCourse << endl;
+
+        cout<<"=================================================="<<endl;
+        cout<<"Add Another Course? (Y/N): ";
+
+        getline(cin, addAnotherCourse);
+        if (addAnotherCourse == "n" || addAnotherCourse == "N" || addAnotherCourse == "y" || addAnotherCourse == "Y")
+        {
+            if (addAnotherCourse == "n" || addAnotherCourse == "N")
+            {
+                break;
+            }
+        } else
+        {
+            cout<<"Invalid Response, Try Again"<<endl;
+        }
     }
-};
+}
 int main()
 {
-    int arrSize = 4;
-    string element1 = "Hello";
-    string element2 = "This";
-    string element3 = "Is";
-    string element4 = "A test";
+    char repeat = 'n';
+    do
+    {
+        Student student1 = getStudentWithName();
 
-    string element5 = "I WAS REPLACED";
+        cout << student1.name << endl;
 
-    // Create an object with constructor w params
-    ArrayTestClass array(arrSize);
+        assignStudentCourses(student1);
+        cout << student1;
 
-    // Add each string to each index of the stringArray property
-    array.stringArray[0] = element1;
-    array.stringArray[1] = element2;
-    array.stringArray[2] = element3;
-    array.stringArray[3] = element4;
-
-    cout << array;
-
-    // Do a Deep copy of "array"
-    ArrayTestClass array2 = array;    // One method
-
-    // ArrayTestClass array2(array);          // Other Method
-
-    // Clear array
-    array.ClearArray();
-
-    array2.stringArray[0] = element5;
-
-    cout << "====================================" << endl;
-
-    // uses operator overload to print "ArrayTestClass" object
-    cout << array;
-
-    cout << "====================================" << endl;
-
-    cout << array2;
+    } while (repeat == 'Y' || repeat == 'y');
 
     return 0;
 }
-
-class MyClass
-{
-    public:
-    int *classProp;
-    int *otherProp;
-
-    MyClass(const int val, const int otherVal) // Constructor w params
-    {
-        classProp = new int; // allocates a new int on the heap and stores its address in classProp
-        *classProp = val; // deref allocated memory store in "classProp" and writes "val" to it
-
-        otherProp = new int;
-        *otherProp = otherVal;
-    };
-
-    //Deep Copy Constructor
-    MyClass(const MyClass &obj)
-    {
-        classProp = new int; // allocates new mem, aka new address
-        *classProp = *(obj.classProp); //Copys passed in object params into allocated mem (De-reference)
-
-        otherProp = new int;
-        *otherProp = *(obj.otherProp);
-    }
-
-    //Create a destructor
-    ~MyClass()
-    {
-        delete classProp;
-        delete otherProp;
-    }
-};
-    // const MyClass obj1(10, 100); //Creates first object of "MyClass"
-    // MyClass obj2 = obj1;
-    //
-    // *obj2.classProp = 50; // deref
-    //
-    // cout << "Obj1 properties:" << endl;
-    // cout << *obj1.classProp << endl;
-    // cout << *obj1.otherProp << endl;
-    // cout << "Obj2 properties:" << endl;
-    // cout << *obj2.classProp << endl;
-    // cout << *obj2.otherProp << endl;
 
