@@ -133,20 +133,32 @@ static void assignStudentCourses(Student& student)
         }
     }
 }
+
+//Displays all student properties with getters
+static void displayStudentInfo(const Student& student)
+{
+
+    cout << "Name: " << student.getName() << endl;
+    cout << "numCourses: " << student.getNumCourses() << endl;
+
+    for (int i = 0; i < student.getNumCourses(); i++)
+    {
+        cout << "Array Element " << i <<": " << student.getCourseList()[i] << endl;
+    }
+}
 int main()
 {
     bool repeatBool = false;
     do
     {
         cout << "=========================================" << endl;
-        // Student student1 = getStudentWithName("Enter Student1 name: ");
         string student1Name = getValidName("Enter Student1 name: ");
 
         //Create Student with valid name
         Student student1 = Student(student1Name);
 
         assignStudentCourses(student1);
-        cout << student1;
+        student1.print();
 
         cout << "=========================================" << endl;
 
@@ -165,10 +177,12 @@ int main()
         cout << "=============== ASSIGNMENT OPERATOR DEMO ===============" << endl;
 
         // Creates Blank student
-        Student student3("Temp");
+        Student student3;
         student3 = student2;
 
-        student3.print();
+        cout << "=============== ALL ACCESSORS DEMO ===============" << endl;
+
+        displayStudentInfo(student3);
 
         cout<<"=================================================="<<endl;
 

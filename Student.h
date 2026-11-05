@@ -5,33 +5,33 @@
 #ifndef A2_COURSES_STUDENT_H
 #define A2_COURSES_STUDENT_H
 
+#include <iostream>
 #include <string>
-using namespace std;
     class Student
     {
         public:
-        string name;
+        std::string name;
         int numCourses;
-        string* courseList;
+        std::string* courseList;
 
         Student();                  // default constructor
-        explicit Student(const string& name);   // constructor with params
+        explicit Student(const std::string& name);   // constructor with params
         Student(const Student& student);        // Deep Copy constructor
         ~Student();                 // destructor
 
         // getters (accessors)
-        string getName();
+        std::string getName() const;
         int getNumCourses() const;
-        string getCourseArray() const;
+        std::string* getCourseList() const;
 
         // setters (Mutator)
-        void setName(string n);
+        void setName(std::string n);
 
-        // Considers current objects array size and if larger than "numCourse" allocate more mem and update "numCourses"
-        int addCourse(const string& course);
+        // Adds a course to courseList array with consideration of numCourses and allocated already allocated array mem
+        int addCourse(const std::string& course);
 
         // Prints each property of student
-        friend ostream& operator<<(ostream& output, const Student& student);
+        friend std::ostream& operator<<(std::ostream& output, const Student& student);
 
         // Assignment Operator
         Student& operator=(const Student& other);
@@ -41,8 +41,6 @@ using namespace std;
 
         // clears all properties of object
         void clear();
-
-
     };
 
 #endif //A2_COURSES_STUDENT_H

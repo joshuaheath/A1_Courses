@@ -48,7 +48,7 @@ Student::Student(const Student& student)
 }
 //===========================================================================
 
-string Student::getName()
+string Student::getName() const
 {
     return name;
 }
@@ -57,9 +57,9 @@ int Student::getNumCourses() const
     return numCourses;
 }
 
-string Student::getCourseArray() const
+string* Student::getCourseList() const
 {
-    return courseList[numCourses];
+    return courseList;
 }
 //===========================================================================
 
@@ -118,8 +118,8 @@ Student& Student::operator=(const Student& other)
         delete[] courseList;    // Clear existing memory
         courseList = nullptr;   // Prevent dangling pointer
     }
-    name = other.name;
-    numCourses = other.numCourses;
+    name = other.getName();
+    numCourses = other.getNumCourses();
 
     if (numCourses > 0)
     {
@@ -134,7 +134,7 @@ Student& Student::operator=(const Student& other)
         courseList = nullptr; // If there were no courses to copy in the first place
     }
     return *this;
-};
+}
 
 void Student::print() const
 {
@@ -152,9 +152,11 @@ void Student::print() const
 void Student::clear()
 {
     cout<<"-- Clearing Student --"<<endl;
-    for (int i = 0; i < numCourses; i++)
-    {
-        courseList[i] = "";
-    }
+    // for (int i = 0; i < numCourses; i++)
+    // {
+    //     courseList[i] = "";
+    // }
     numCourses = 0;
+    delete[] courseList;
+    courseList = nullptr;
 }
