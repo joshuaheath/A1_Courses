@@ -13,7 +13,7 @@ using namespace std;
 //===========================================================================
 Student::Student()
 {
-    cout<<"Student constructor"<<endl;
+    cout<<"-- Student Default constructor-- "<<endl;
     name = "";
     numCourses = 0;
     courseList = nullptr;
@@ -21,7 +21,7 @@ Student::Student()
 
 Student::Student(const string& name)
 {
-    cout<<"Student constructor with params"<<endl;
+    cout<<"-- Student constructor with params --"<<endl;
     this->name = name;
     numCourses = 0;
     courseList = new string[numCourses];
@@ -29,13 +29,13 @@ Student::Student(const string& name)
 
 Student::~Student()
 {
-    cout<<"Student destructor"<<endl;
+    cout<<"-- Student destructor --"<<endl;
     delete[] courseList;
 }
 
 Student::Student(const Student& student)
 {
-    cout<<"Student Deep copy constructor"<<endl;
+    cout<<"-- Student Deep copy constructor --"<<endl;
     name = student.name;
     numCourses = student.numCourses;
     courseList = new string[numCourses]; //Allocate new memory to store copied params
@@ -65,7 +65,6 @@ string Student::getCourseArray() const
 
 void Student::setName(string name)
 {
-
     this->name = name;
 }
 
@@ -91,11 +90,11 @@ int Student::addCourse(const string& course)
     numCourses++;
     return 0;
 }
-//===========================================================================
+//================================== OPERATORS =========================================
 
 ostream& operator<<(ostream& output, const Student& student)
 {
-    cout<<"Student Details"<<endl;
+    cout<<"-- OPERATOR '<<' - Student Details --"<<endl;
 
     output<<"Name: "<< student.name << endl;
     output<< "Number of courses: "<< student.numCourses << "\nCourses: " << endl;
@@ -106,8 +105,53 @@ ostream& operator<<(ostream& output, const Student& student)
     return output << endl;
 }
 
+Student& Student::operator=(const Student& other)
+{
+    cout << "-- OPERATOR '=' Assignment --" <<endl;
+    if (this == &other) // Prevent self-assignment
+    {
+        return *this;
+    }
+    // if theres a difference of allocated memory between blueprint list and other array
+    if (courseList != nullptr)
+    {
+        delete[] courseList;    // Clear existing memory
+        courseList = nullptr;   // Prevent dangling pointer
+    }
+    name = other.name;
+    numCourses = other.numCourses;
+
+    if (numCourses > 0)
+    {
+        courseList = new string[numCourses]; //allocates mem to populate
+        for (int i = 0; i < numCourses; i++)
+        {
+            courseList[i] = other.courseList[i]; //Deep copy of courses
+        }
+    }
+    else
+    {
+        courseList = nullptr; // If there were no courses to copy in the first place
+    }
+    return *this;
+};
+
+void Student::print() const
+{
+    cout<<"-- PRINT - Student Details --"<<endl;
+    cout <<"Name: "<< name << endl;
+    cout <<"Number of courses: "<< numCourses << endl;
+    cout <<"Courses: " << endl;
+    for (int i = 0; i < numCourses; i++)
+    {
+        cout << courseList[i] << ", ";
+    }
+    cout << endl;
+}
+
 void Student::clear()
 {
+    cout<<"-- Clearing Student --"<<endl;
     for (int i = 0; i < numCourses; i++)
     {
         courseList[i] = "";

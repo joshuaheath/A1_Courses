@@ -33,8 +33,16 @@ using namespace std;
         // Prints each property of student
         friend ostream& operator<<(ostream& output, const Student& student);
 
+        // Assignment Operator
+        Student& operator=(const Student& other);
+
+        // Does the same as the "<<" operator overload but is instead a method
+        void print() const;
+
         // clears all properties of object
         void clear();
+
+
     };
 
 #endif //A2_COURSES_STUDENT_H

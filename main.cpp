@@ -12,31 +12,32 @@
 // 6) DONE A string constructor (i.e., constructor with arguments Student S1(“Bo
 // 7) DONE A ‘print’ function that outputs the name and list of all courses.
 // 8) DONE Overloaded << as a friend function that outputs the name and list of all courses.
-// 9) DONE A function that resets the number of courses to 0 and the courseList array to an empty list.
+// 9) DONE Solution implements a correctly functioning overloaded assignment operator. i.e. S2 = S1
+// 10) DONE A function that resets the number of courses to 0 and the courseList array to an empty list.
 
 // OTHER REQUIREMENTS
-// 10) Demos all methods of student class
-// 11) Allows looping or exiting, all class properties are entered by user
+// 10) DONE Demos all methods of student class
+// 11) DONE Allows looping or exiting, all class properties are entered by user
 // 12) DONE Key methods identify itself when called
 // 13) DONE Solution implements heads with appropriate pre-processor directives and guards
 // 14) DONE Solution implements a correct copy constructor (Deep copy)
-// 15) implements correctly functioning assignment operator
-// 16) Includes programmer made destructor that frees memory with no leaks
-// 17) Implements a Dynamic array on the heap
-// 18) Destructor is called appropriate amount of times
-// 19) Solution contains a method that resets the num of classes to 0 and list of courses to empty
-// 20) Implements a correctly functioning String constructor
+// 15) DONE implements correctly functioning assignment operator
+// 16) DONE Includes programmer made destructor that frees memory with no leaks
+// 17) DONE Implements a Dynamic array on the heap
+// 18) DONE Destructor is called appropriate amount of times
+// 19) DONE Solution contains a method that resets the num of classes to 0 and list of courses to empty
+// 20) DONE Implements a correctly functioning String constructor
 
 // FLOW OF SOLUTION
-// Ask for the 1st students name and courses until student is finished (no constant array size)
-// Populate Student object
-// Display properties of student object to user
-// Ask for name of second student
-// Store new student name and use deep copy constructor to create 2nd object with new name
-// Reset all properties of student 1 and display properties
-// Display student 2 properties
-// Enter third student and use custom assignment operator (Ie. 3rd student = 2nd student)
-// Alow for looping back to the beginning
+// DONE Ask for the 1st students name and courses until student is finished (no constant array size)
+// DONE Populate Student object
+// DONE Display properties of student object to user
+// DONE Ask for name of second student
+// DONE Store new student name and use deep copy constructor to create 2nd object with new name
+// DONE Reset all properties of student 1 and display properties
+// DONE Display student 2 properties
+// DONE Enter third student and use custom assignment operator (Ie. 3rd student = 2nd student)
+// DONE Alow for looping back to the beginning
 
 
 #include <iostream>
@@ -44,23 +45,58 @@
 #include "Student.h"
 using namespace std;
 
-Student getStudentWithName()
+static string getValidName(const string& prompt)
 {
     string name;
+    bool isValidName;
     do
     {
-        cout << "Enter Student name: ";
-        getline(cin, name);
+        isValidName = true;
 
-        if (name == "")
+        cout << prompt;
+        getline(cin, name);
+        if (name.empty() || name == " ")
         {
+            isValidName = false;
             cout << "Student name cannot be empty"<<endl;
         }
-
-    } while (name.empty());
-    return Student(name);
+    } while (!isValidName);
+    return name;
 }
 
+static bool userResponseYNBool(const string& prompt)
+{
+    string userInput;
+    bool responseYNBool = true; // Wether to stop entering courses
+    bool validUserResponse = true; // Wether the gives a y,Y,n,N input
+    do
+    {
+        cout<< prompt;
+        getline(cin, userInput);
+
+        //Catches new lines/nothing
+        if (userInput.empty())
+        {
+            validUserResponse = false;
+            cout << "Invalid Response, Try Again"<<endl;
+            continue;
+        }
+
+        if (userInput == "n" || userInput == "N" || userInput == "y" || userInput == "Y")
+        {
+            validUserResponse = true;
+            if (userInput == "y" || userInput == "Y") { responseYNBool = true; } else { responseYNBool = false; }
+        }
+        else //Catches anything else
+        {
+            validUserResponse = false;
+            cout << "Invalid Response, Try Again"<<endl;
+
+        }
+    } while (!validUserResponse);
+
+    return responseYNBool; //Returns
+}
 string getCourseString()
 {
     string course;
@@ -77,49 +113,67 @@ string getCourseString()
     return course;
 }
 
-// bool getBooleanResponse()
-// Assign
-static void assignStudentCourses(Student& course)
+// Adds as many courses to provided student param
+static void assignStudentCourses(Student& student)
 {
-    string addAnotherCourse;
     while (true)
     {
         string curCourse = getCourseString();
         if (curCourse.empty()){cout<<"You shouldnt be here"<<endl;}
 
         //Adds verifeid course string to Student array
-        course.addCourse(curCourse);
+        student.addCourse(curCourse);
         cout << "Added Course: " << curCourse << endl;
 
         cout<<"=================================================="<<endl;
-        cout<<"Add Another Course? (Y/N): ";
 
-        getline(cin, addAnotherCourse);
-        if (addAnotherCourse == "n" || addAnotherCourse == "N" || addAnotherCourse == "y" || addAnotherCourse == "Y")
+        if (!userResponseYNBool("Add Another Course? (Y/N): "))
         {
-            if (addAnotherCourse == "n" || addAnotherCourse == "N")
-            {
-                break;
-            }
-        } else
-        {
-            cout<<"Invalid Response, Try Again"<<endl;
+            break;
         }
     }
 }
 int main()
 {
-    char repeat = 'n';
+    bool repeatBool = false;
     do
     {
-        Student student1 = getStudentWithName();
+        cout << "=========================================" << endl;
+        // Student student1 = getStudentWithName("Enter Student1 name: ");
+        string student1Name = getValidName("Enter Student1 name: ");
 
-        cout << student1.name << endl;
+        //Create Student with valid name
+        Student student1 = Student(student1Name);
 
         assignStudentCourses(student1);
         cout << student1;
 
-    } while (repeat == 'Y' || repeat == 'y');
+        cout << "=========================================" << endl;
+
+        string student2Name = getValidName("Enter Student2 name: ");
+        // Create a copy of student 1
+        Student student2(student1);
+        student2.setName(student2Name);
+
+        //Clear student 1 properties
+        student1.clear();
+        cout << "=============== AFTER CLEAR AND DEEP COPY ===============" << endl;
+
+        cout << student1;
+        cout << student2;
+
+        cout << "=============== ASSIGNMENT OPERATOR DEMO ===============" << endl;
+
+        // Creates Blank student
+        Student student3("Temp");
+        student3 = student2;
+
+        student3.print();
+
+        cout<<"=================================================="<<endl;
+
+        repeatBool = userResponseYNBool("Repeat? (Y/N): ");
+    } while (repeatBool);
 
     return 0;
 }
