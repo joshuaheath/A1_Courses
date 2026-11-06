@@ -20,7 +20,7 @@
         Student(const Student& student);            // Deep Copy constructor
         ~Student();                                 // destructor
 
-        // getters (accessors)
+        // getters (Accessors)
         std::string getName() const;
         int getNumCourses() const;
         std::string* getCourseList() const;
