@@ -9,15 +9,16 @@
 #include <string>
     class Student
     {
-        public:
+    private:
         std::string name;
         int numCourses;
         std::string* courseList;
 
-        Student();                  // default constructor
-        explicit Student(const std::string& name);   // constructor with params
-        Student(const Student& student);        // Deep Copy constructor
-        ~Student();                 // destructor
+    public:
+        Student();                                  // default constructor
+        explicit Student(const std::string& name);  // constructor with params
+        Student(const Student& student);            // Deep Copy constructor
+        ~Student();                                 // destructor
 
         // getters (accessors)
         std::string getName() const;
