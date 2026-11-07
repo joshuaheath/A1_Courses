@@ -25,32 +25,25 @@
         }
 
     public:
-        Student();                                  // default constructor
-        explicit Student(const std::string& name);  // constructor with params
-        Student(const Student& student);            // Deep Copy constructor
-        ~Student();                                 // destructor
+        Student();
+        explicit Student(const std::string& name);
+        Student(const Student& student);
+        ~Student();
 
-        // getters (Accessors)
         const std::string& getName() const;
         const int& getNumCourses() const;
         const std::string* getCourseList() const;
 
-        // setters (Mutator)
         void setName(const std::string& n);
 
-        // Adds a course to courseList array with consideration of numCourses and allocated already allocated array mem
         int addCourse(const std::string& course);
 
-        // Prints each property of student
         friend std::ostream& operator<<(std::ostream& output, const Student& student);
 
-        // Assignment Operator
         Student& operator=(const Student& other);
 
-        // Does the same as the "<<" operator overload but is instead a method
         void print() const;
 
-        // clears all properties of object
         void clear();
     };
 

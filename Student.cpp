@@ -6,11 +6,7 @@
 # include "Student.h"
 
 using namespace std;
-// string name;
-// int numCourses;
-// string* courseList;
 
-//===========================================================================
 Student::Student()
 {
     cout<<"-- Student Default constructor-- "<<endl;
@@ -43,7 +39,7 @@ Student::Student(const Student& student)
 
     if (student.courseList != nullptr)
     {
-        courseList = new string[numCourses]; //Allocate new memory to store copied params
+        courseList = new string[numCourses];
 
         // Copy Array Elements
         for (int i = 0; i < numCourses; i++)
@@ -52,7 +48,6 @@ Student::Student(const Student& student)
         }
     }
 }
-//===========================================================================
 
 const string& Student::getName() const
 {
@@ -67,7 +62,6 @@ const string* Student::getCourseList() const
 {
     return courseList;
 }
-//===========================================================================
 
 void Student::setName(const string& n)
 {
@@ -95,7 +89,6 @@ int Student::addCourse(const string& course)
     numCourses++;
     return 0;
 }
-//================================== OPERATORS =========================================
 
 ostream& operator<<(ostream& output, const Student& student)
 {
@@ -113,12 +106,11 @@ ostream& operator<<(ostream& output, const Student& student)
 Student& Student::operator=(const Student& other)
 {
     cout << "-- OPERATOR '=' Assignment --" <<endl;
-    if (this == &other) // Prevent self-assignment
+    if (this == &other)
     {
         return *this;
     }
 
-    // if theres a difference of allocated memory between blueprint list and other array
     clear();
 
     name = other.getName();
@@ -126,10 +118,10 @@ Student& Student::operator=(const Student& other)
 
     if (numCourses > 0)
     {
-        courseList = new string[numCourses]; //allocates mem to populate
+        courseList = new string[numCourses];
         for (int i = 0; i < numCourses; i++)
         {
-            courseList[i] = other.courseList[i]; //Deep copy of courses
+            courseList[i] = other.courseList[i];
         }
     }
 
