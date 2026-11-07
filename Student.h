@@ -14,6 +14,16 @@
         int numCourses;
         std::string* courseList;
 
+        static bool isCourseValid(const std::string& course)
+        {
+            if (course.empty() || course == " ")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     public:
         Student();                                  // default constructor
         explicit Student(const std::string& name);  // constructor with params
@@ -21,12 +31,12 @@
         ~Student();                                 // destructor
 
         // getters (Accessors)
-        std::string getName() const;
-        int getNumCourses() const;
-        std::string* getCourseList() const;
+        const std::string& getName() const;
+        const int& getNumCourses() const;
+        const std::string* getCourseList() const;
 
         // setters (Mutator)
-        void setName(std::string n);
+        void setName(const std::string& n);
 
         // Adds a course to courseList array with consideration of numCourses and allocated already allocated array mem
         int addCourse(const std::string& course);

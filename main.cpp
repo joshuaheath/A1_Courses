@@ -146,6 +146,7 @@ static void displayStudentInfo(const Student& student)
         cout << "Array Element " << i <<": " << student.getCourseList()[i] << endl;
     }
 }
+
 int main()
 {
     bool repeatBool = false;

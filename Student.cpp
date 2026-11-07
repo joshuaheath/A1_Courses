@@ -24,7 +24,8 @@ Student::Student(const string& name)
     cout<<"-- Student constructor with params --"<<endl;
     this->name = name;
     numCourses = 0;
-    courseList = new string[numCourses];
+    courseList = nullptr;
+
 }
 
 Student::~Student()
@@ -38,43 +39,47 @@ Student::Student(const Student& student)
     cout<<"-- Student Deep copy constructor --"<<endl;
     name = student.name;
     numCourses = student.numCourses;
-    courseList = new string[numCourses]; //Allocate new memory to store copied params
+    courseList = nullptr;
 
-    // Copy Array Elements
-    for (int i = 0; i < numCourses; i++)
+    if (student.courseList != nullptr)
     {
-        courseList[i] = student.courseList[i];
+        courseList = new string[numCourses]; //Allocate new memory to store copied params
+
+        // Copy Array Elements
+        for (int i = 0; i < numCourses; i++)
+        {
+            courseList[i] = student.courseList[i];
+        }
     }
 }
 //===========================================================================
 
-string Student::getName() const
+const string& Student::getName() const
 {
     return name;
 }
-int Student::getNumCourses() const
+const int& Student::getNumCourses() const
 {
     return numCourses;
 }
 
-string* Student::getCourseList() const
+const string* Student::getCourseList() const
 {
     return courseList;
 }
 //===========================================================================
 
-void Student::setName(string name)
+void Student::setName(const string& n)
 {
-    this->name = name;
+    name = n;
 }
 
 int Student::addCourse(const string& course)
 {
+
     cout << "Adding course to student"<<endl;
-    if (course.empty())
-    {
+    if (!isCourseValid(course))
         return -1;
-    }
 
     string* tempArray = new string[numCourses + 1];
     for (int i = 0; i < numCourses; i++)
@@ -112,12 +117,10 @@ Student& Student::operator=(const Student& other)
     {
         return *this;
     }
+
     // if theres a difference of allocated memory between blueprint list and other array
-    if (courseList != nullptr)
-    {
-        delete[] courseList;    // Clear existing memory
-        courseList = nullptr;   // Prevent dangling pointer
-    }
+    clear();
+
     name = other.getName();
     numCourses = other.getNumCourses();
 
@@ -129,10 +132,7 @@ Student& Student::operator=(const Student& other)
             courseList[i] = other.courseList[i]; //Deep copy of courses
         }
     }
-    else
-    {
-        courseList = nullptr; // If there were no courses to copy in the first place
-    }
+
     return *this;
 }
 
@@ -152,11 +152,10 @@ void Student::print() const
 void Student::clear()
 {
     cout<<"-- Clearing Student --"<<endl;
-    // for (int i = 0; i < numCourses; i++)
-    // {
-    //     courseList[i] = "";
-    // }
-    numCourses = 0;
-    delete[] courseList;
-    courseList = nullptr;
+    if (courseList != nullptr)
+    {
+        numCourses = 0;
+        delete[] courseList;
+        courseList = nullptr;
+    }
 }
